@@ -1,0 +1,47 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a2e;
+    color: #eaeaea;
+}
+header {
+    background-color: #16213e;
+    color: #e94560;
+    padding: 1rem 0;
+    text-align: center;
+}
+header h1 {
+    margin: 0;
+}
+nav {
+    background-color: #0f3460;
+    overflow: hidden;
+}
+nav a {
+    float: left;
+    display: block;
+    color: #eaeaea;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+nav a:hover {
+    background-color: #e94560;
+    color: #1a1a2e;
+}
+.container {
+    padding: 2rem;
+}
+.about, .projects, .contact {
+    margin-bottom: 2rem;
+}
+footer {
+    background-color: #16213e;
+    color: #e94560;
+    text-align: center;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
