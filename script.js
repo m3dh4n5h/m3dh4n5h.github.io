@@ -27,6 +27,55 @@
   setTimeout(tick, 1200);
 })();
 
+/* ===== Hero Parallax — content drifts up and fades as user scrolls away ===== */
+(function initParallax() {
+  const heroContent = document.querySelector('.hero-content');
+  if (!heroContent) return;
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      const vh = window.innerHeight;
+      if (y <= vh) {
+        const progress = y / vh;
+        heroContent.style.transform = `translateY(${y * 0.22}px)`;
+        heroContent.style.opacity   = String(Math.max(0, 1 - progress * 1.6));
+      } else {
+        heroContent.style.transform = '';
+        heroContent.style.opacity   = '';
+      }
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+
+/* ===== Stat Counters — numbers count up when scrolled into view ===== */
+(function initCounters() {
+  const stats = document.querySelectorAll('.stat-number');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const raw = el.textContent.trim();
+      const num = parseInt(raw, 10);
+      if (isNaN(num) || num > 100) return; // skip large numbers like 2029
+      const suffix = raw.replace(String(num), '');
+      const duration = 1100;
+      const start = performance.now();
+      observer.unobserve(el);
+      (function step(now) {
+        const t = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = Math.round(eased * num) + suffix;
+        if (t < 1) requestAnimationFrame(step);
+      })(start);
+    });
+  }, { threshold: 0.7 });
+  stats.forEach(s => observer.observe(s));
+})();
+
 /* ===== Back to Top ===== */
 const backToTop = document.getElementById('backToTop');
 backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));

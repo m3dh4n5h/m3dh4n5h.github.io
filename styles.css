@@ -210,10 +210,10 @@ img, svg { display: block; max-width: 100%; }
 
 .theme-icon {
     position: absolute;
-    font-style: normal;
-    font-size: 1rem;
+    width: 17px;
+    height: 17px;
+    color: var(--text);
     transition: transform var(--t) var(--ease), opacity var(--t) var(--ease);
-    line-height: 1;
 }
 .theme-icon.sun  { transform: translateY(0) scale(1); opacity: 1; }
 .theme-icon.moon { transform: translateY(28px) scale(0.6); opacity: 0; }
@@ -367,7 +367,7 @@ img, svg { display: block; max-width: 100%; }
 
 /* Hero staggered fade-up */
 .hero-greeting    { opacity: 0; animation: fadeUp 0.8s 0.15s forwards; }
-.hero-title       { opacity: 0; animation: fadeUp 0.8s 0.35s forwards; }
+.hero-title       { opacity: 0; animation: fadeUp 0.8s 0.35s forwards, titleGradient 7s 1.2s ease-in-out infinite; }
 .hero-subtitle    { opacity: 0; animation: fadeUp 0.8s 0.55s forwards; }
 .hero-description { opacity: 0; animation: fadeUp 0.8s 0.75s forwards; }
 .hero-cta         { opacity: 0; animation: fadeUp 0.8s 0.95s forwards; }
@@ -392,11 +392,18 @@ img, svg { display: block; max-width: 100%; }
     font-weight: 900;
     line-height: 1.04;
     letter-spacing: -3px;
-    background: linear-gradient(135deg, var(--text) 0%, var(--primary) 55%, var(--secondary) 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 35%, var(--pink) 65%, var(--primary) 100%);
+    background-size: 300% 300%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 1.4rem;
+}
+
+@keyframes titleGradient {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .hero-subtitle {
@@ -504,32 +511,32 @@ img, svg { display: block; max-width: 100%; }
 /* ===== Reveal Animation ===== */
 .reveal {
     opacity: 0;
-    transform: translateY(36px);
-    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    transform: translateY(36px) scale(0.97);
+    transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
 }
 .reveal.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 .reveal-left {
     opacity: 0;
-    transform: translateX(-44px);
-    transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
+    transform: translateX(-48px) scale(0.97);
+    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
 }
 .reveal-left.visible {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) scale(1);
 }
 
 .reveal-right {
     opacity: 0;
-    transform: translateX(44px);
-    transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
+    transform: translateX(48px) scale(0.97);
+    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
 }
 .reveal-right.visible {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) scale(1);
 }
 
 /* ===== About ===== */
@@ -756,12 +763,12 @@ img, svg { display: block; max-width: 100%; }
     border-radius: 16px;
     overflow: hidden;
     opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease), border-color var(--t) var(--ease), box-shadow var(--t) var(--ease);
+    transform: translateY(28px) scale(0.96);
+    transition: opacity 0.65s var(--ease), transform 0.65s var(--ease), border-color var(--t) var(--ease), box-shadow var(--t) var(--ease);
 }
 .project-card.card-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 .project-card.card-visible:hover {
     transform: translateY(-6px);
