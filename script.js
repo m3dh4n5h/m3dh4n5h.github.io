@@ -1,5 +1,5 @@
 /* ================================================================
-   PORTFOLIO — script.js  (FIXED)
+   PORTFOLIO — script.js
 ================================================================ */
 'use strict';
 
@@ -96,71 +96,67 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 })();
 
-/* ===== Intersection Observer — Scroll Reveal (FIXED) ===== */
+/* ===== Scroll Reveal — fade/slide for sections ===== */
 (function initReveal() {
-  const revealEls = document.querySelectorAll('.reveal');
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
 
-  // ✅ FIX: If JS or IO is slow, reveal everything after 2s as a safety net
+  // Fallback: force everything visible after 2.5s in case IO is slow
   const fallbackTimer = setTimeout(() => {
     revealEls.forEach(el => el.classList.add('visible'));
-  }, 2000);
+    document.querySelectorAll('.project-card').forEach(card => card.classList.add('card-visible'));
+  }, 2500);
 
+  // Observer for .reveal / .reveal-left / .reveal-right
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        observer.unobserve(entry.target); // stop watching once revealed
-
-        // ✅ FIX: Trigger skill bars AFTER their parent becomes visible
-        const fills = entry.target.querySelectorAll('.skill-fill');
-        fills.forEach((fill, i) => {
-          setTimeout(() => {
-            requestAnimationFrame(() => {
-              fill.style.width = fill.dataset.width + '%';
-            });
-          }, i * 80 + 200); // stagger + small delay so CSS transition plays
-        });
-
-        // Stagger child project cards
-        const children = entry.target.querySelectorAll('.project-card.reveal, .skill-item');
-        children.forEach((child, i) => {
-          child.style.transitionDelay = `${i * 80}ms`;
-          child.classList.add('visible');
-        });
+        observer.unobserve(entry.target);
       }
     });
   }, {
-    threshold: 0.08,          // ✅ slightly lower threshold = triggers earlier
-    rootMargin: '0px 0px 0px 0px'  // ✅ FIX: removed -40px bottom margin that caused misses
+    threshold: 0.08,
+    rootMargin: '0px 0px 0px 0px'
   });
 
   revealEls.forEach(el => observer.observe(el));
 
-  // ✅ FIX: Elements already visible on page load (e.g. if user loads mid-page) get revealed instantly
+  // Elements already in viewport on load get revealed instantly
   revealEls.forEach(el => {
     const rect = el.getBoundingClientRect();
     if (rect.top < window.innerHeight && rect.bottom > 0) {
       el.classList.add('visible');
-      clearTimeout(fallbackTimer);
     }
   });
-})();
 
-/* ===== Animated Skill Bars (FIXED — now triggered inside reveal callback above) ===== */
-// Skill bars are now animated inside initReveal() after parent becomes visible.
-// This fallback handles skill bars that are already in view on load:
-(function initSkillBars() {
-  const fills = document.querySelectorAll('.skill-fill');
-  const observer = new IntersectionObserver(entries => {
+  // Staggered card reveal — triggered when the parent grid enters viewport
+  const gridObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        const fill = entry.target;
-        requestAnimationFrame(() => { fill.style.width = fill.dataset.width + '%'; });
-        observer.unobserve(fill);
+        const cards = entry.target.querySelectorAll('.project-card');
+        cards.forEach((card, i) => {
+          setTimeout(() => {
+            card.classList.add('card-visible');
+          }, i * 130);
+        });
+        gridObserver.unobserve(entry.target);
+        clearTimeout(fallbackTimer);
       }
     });
-  }, { threshold: 0.4 });
-  fills.forEach(fill => observer.observe(fill));
+  }, { threshold: 0.05 });
+
+  document.querySelectorAll('.projects-grid').forEach(grid => {
+    // If grid is already in view on load, stagger immediately
+    const rect = grid.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      const cards = grid.querySelectorAll('.project-card');
+      cards.forEach((card, i) => {
+        setTimeout(() => card.classList.add('card-visible'), i * 130);
+      });
+    } else {
+      gridObserver.observe(grid);
+    }
+  });
 })();
 
 /* ===== Contact Form Validation ===== */
@@ -170,7 +166,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   if (!form) return;
   const fields = {
     name:    { rule: v => v.length >= 2,  msg: 'Please enter your name (at least 2 characters).' },
-    email:   { rule: v => /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(v), msg: 'Please enter a valid email address.' },
+    email:   { rule: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), msg: 'Please enter a valid email address.' },
     subject: { rule: v => v.length >= 3,  msg: 'Subject must be at least 3 characters.' },
     message: { rule: v => v.length >= 10, msg: 'Message must be at least 10 characters.' },
   };
