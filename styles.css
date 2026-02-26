@@ -532,6 +532,10 @@ img, svg { display: block; max-width: 100%; }
     width: 100%;
     max-width: 260px;
 }
+.about-stats--two {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 200px;
+}
 .stat {
     text-align: center;
     padding: 0.9rem 0.4rem;
