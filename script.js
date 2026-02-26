@@ -8,11 +8,14 @@
   const el = document.getElementById('typedText');
   if (!el) return;
   const phrases = [
-    'research that matters.',
-    'sustainable solutions.',
-    'engineering bridges.',
-    'leadership that counts.',
-    'impactful projects.',
+    'advancing energy systems.',
+    'designing resilient futures.',
+    'solving global challenges.',
+    'bridging science and impact.',
+    'catalyzing sustainable change.',
+    'engineering better solutions.',
+    'leading purposeful research.',
+    'creating lasting impact.',
   ];
   let phraseIndex = 0, charIndex = 0, deleting = false;
   function tick() {
