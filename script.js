@@ -9,7 +9,7 @@
     const el = document.getElementById('typedText');
     if (!el) return;
 
-    const phrases = ['websites.', 'experiences.', 'interfaces.', 'solutions.', 'cool stuff.'];
+    const phrases = ['research that matters.', 'sustainable solutions.', 'engineering bridges.', 'leadership that counts.', 'impactful projects.'];
     let phraseIndex = 0;
     let charIndex   = 0;
     let deleting    = false;
