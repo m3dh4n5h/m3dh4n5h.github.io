@@ -27,6 +27,10 @@
   setTimeout(tick, 1200);
 })();
 
+/* ===== Back to Top ===== */
+const backToTop = document.getElementById('backToTop');
+backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
 /* ===== Navbar — scroll state & active link ===== */
 (function initNavbar() {
   const navbar   = document.getElementById('navbar');
@@ -49,10 +53,6 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 })();
-
-/* ===== Back to Top ===== */
-const backToTop = document.getElementById('backToTop');
-backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
 /* ===== Smooth Scroll ===== */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
